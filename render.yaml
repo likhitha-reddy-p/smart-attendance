@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: smart-attendance
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: MONGO_URI
+        value: mongodb+srv://username:Likhitha0910@cluster.mongodb.net/attendanceDB
