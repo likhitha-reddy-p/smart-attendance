@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #f5f7fa;
+      margin: 0;
+    }
+
+    header {
+      background: #667eea;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .container {
+      padding: 20px;
+      text-align: center;
+    }
+
+    button {
+      padding: 12px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      background: #667eea;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #5a67d8;
+    }
+
+    .card {
+      background: white;
+      margin: 10px auto;
+      padding: 15px;
+      border-radius: 10px;
+      width: 300px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h2>Smart Attendance Dashboard</h2>
+</header>
+
+<div class="container">
+  <button onclick="markAttendance()">Mark Attendance</button>
+  <button onclick="loadAttendance()">View Attendance</button>
+
+  <div id="attendanceList"></div>
+</div>
+
+<script>
+async function markAttendance() {
+  const res = await fetch("http://localhost:5000/api/attendance/mark", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      userId: localStorage.getItem("userId")
+    })
+  });
+
+  const data = await res.json();
+  alert(data.message);
+}
+
+async function loadAttendance() {
+  const res = await fetch("http://localhost:5000/api/attendance/all");
+  const data = await res.json();
+
+  const container = document.getElementById("attendanceList");
+  container.innerHTML = "";
+
+  data.forEach(item => {
+    container.innerHTML += `
+      <div class="card">
+        <p><b>User:</b> ${item.userId}</p>
+        <p><b>Status:</b> ${item.status}</p>
+        <p><b>Date:</b> ${new Date(item.date).toLocaleString()}</p>
+      </div>
+    `;
+  });
+}
+</script>
+
+</body>
+</html>
