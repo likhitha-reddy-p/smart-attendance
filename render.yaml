@@ -7,4 +7,4 @@ services:
     startCommand: node server.js
     envVars:
       - key: MONGO_URI
-        value: mongodb+srv://username:Likhitha0910@cluster.mongodb.net/attendanceDB
+        value: mongodb+srv://attendanceuser:Likhitha0910@cluster0.i70a7eo.mongodb.net/attendanceDB?retryWrites=true&w=majority
